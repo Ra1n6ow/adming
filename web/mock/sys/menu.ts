@@ -258,8 +258,7 @@ export default [
           break;
         case '2':
           dashboardRoute.redirect = dashboardRoute.path + '/' + dashboardRoute.children[1].path;
-          // menu = [dashboardRoute, authRoute, levelRoute, linkRoute];
-          menu = [dashboardRoute];
+          menu = [dashboardRoute, authRoute, levelRoute, linkRoute];
           break;
         default:
           menu = [];

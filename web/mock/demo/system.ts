@@ -21,15 +21,15 @@ const accountList = (() => {
 
 const roleList = (() => {
   const result: any[] = [];
-  for (let index = 0; index < 6; index++) {
+  for (let index = 0; index < 4; index++) {
     result.push({
       id: index + 1,
       orderNo: `${index + 1}`,
-      roleName: ['超级管理员', '管理员', '运维', '开发', '测试', '监控'][index],
-      roleValue: ['super', 'admin', 'ops', 'dev', 'test', 'monitor'][index],
+      roleName: ['超级管理员', '管理员', '文章管理员', '普通用户'][index],
+      roleValue: '@first',
       createTime: '@datetime',
       remark: '@cword(10,20)',
-      menu: [['0', '1', '2'], ['0', '1'], ['0', '2'], ['2'], ['2'], ['2']][index],
+      menu: [['0', '1', '2'], ['0', '1'], ['0', '2'], ['2']][index],
       'status|1': ['0', '1'],
     });
   }

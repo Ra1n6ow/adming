@@ -1,6 +1,5 @@
 import type { AppRouteModule } from '@/router/types';
 
-import { RoleEnum } from '@/enums/roleEnum';
 import { LAYOUT } from '@/router/constant';
 import { t } from '@/hooks/web/useI18n';
 
@@ -10,10 +9,9 @@ const system: AppRouteModule = {
   component: LAYOUT,
   redirect: '/system/account',
   meta: {
-    orderNo: 11,
+    orderNo: 2000,
     icon: 'ion:settings-outline',
     title: t('routes.demo.system.moduleName'),
-    roles: [RoleEnum.SUPER],
   },
   children: [
     {
@@ -25,15 +23,15 @@ const system: AppRouteModule = {
       },
       component: () => import('@/views/demo/system/account/index.vue'),
     },
-    // {
-    //   path: 'vxeTableAccount',
-    //   name: 'VxeTableAccountManagement',
-    //   meta: {
-    //     title: t('routes.demo.system.vxeTableAccount'),
-    //     ignoreKeepAlive: false,
-    //   },
-    //   component: () => import('@/views/demo/system/vxe-account/index.vue'),
-    // },
+    {
+      path: 'vxeTableAccount',
+      name: 'VxeTableAccountManagement',
+      meta: {
+        title: t('routes.demo.system.vxeTableAccount'),
+        ignoreKeepAlive: false,
+      },
+      component: () => import('@/views/demo/system/vxe-account/index.vue'),
+    },
     {
       path: 'account_detail/:id',
       name: 'AccountDetail',
@@ -56,24 +54,24 @@ const system: AppRouteModule = {
       component: () => import('@/views/demo/system/role/index.vue'),
     },
 
-    // {
-    //   path: 'menu',
-    //   name: 'MenuManagement',
-    //   meta: {
-    //     title: t('routes.demo.system.menu'),
-    //     ignoreKeepAlive: true,
-    //   },
-    //   component: () => import('@/views/demo/system/menu/index.vue'),
-    // },
-    // {
-    //   path: 'dept',
-    //   name: 'DeptManagement',
-    //   meta: {
-    //     title: t('routes.demo.system.dept'),
-    //     ignoreKeepAlive: true,
-    //   },
-    //   component: () => import('@/views/demo/system/dept/index.vue'),
-    // },
+    {
+      path: 'menu',
+      name: 'MenuManagement',
+      meta: {
+        title: t('routes.demo.system.menu'),
+        ignoreKeepAlive: true,
+      },
+      component: () => import('@/views/demo/system/menu/index.vue'),
+    },
+    {
+      path: 'dept',
+      name: 'DeptManagement',
+      meta: {
+        title: t('routes.demo.system.dept'),
+        ignoreKeepAlive: true,
+      },
+      component: () => import('@/views/demo/system/dept/index.vue'),
+    },
     {
       path: 'changePassword',
       name: 'ChangePassword',
