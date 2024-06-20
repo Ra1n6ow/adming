@@ -3,10 +3,10 @@ package middleware
 import (
 	"github.com/gin-gonic/gin"
 
-	"github.com/ra1n6ow/R-admin/internal/pkg/core"
-	"github.com/ra1n6ow/R-admin/internal/pkg/errno"
-	"github.com/ra1n6ow/R-admin/internal/pkg/known"
-	"github.com/ra1n6ow/R-admin/pkg/token"
+	"github.com/ra1n6ow/adming/internal/pkg/core"
+	"github.com/ra1n6ow/adming/internal/pkg/errno"
+	"github.com/ra1n6ow/adming/internal/pkg/known"
+	"github.com/ra1n6ow/adming/pkg/token"
 )
 
 // Authn 是认证中间件，用来从 gin.Context 中提取 token 并验证 token 是否合法，

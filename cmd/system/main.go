@@ -14,7 +14,7 @@ import (
 	// 参考2：https://pandaychen.github.io/2020/02/29/AUTOMAXPROCS-ANALYSIS/
 	//_ "go.uber.org/automaxprocs"
 
-	"github.com/ra1n6ow/R-admin/internal/system"
+	"github.com/ra1n6ow/adming/internal/system"
 )
 
 // Go 程序的默认入口函数(主函数).

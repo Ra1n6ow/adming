@@ -6,15 +6,16 @@
 package system
 
 import (
-	"github.com/ra1n6ow/R-admin/internal/system/store"
-	"github.com/ra1n6ow/R-admin/pkg/db"
-	"github.com/spf13/cobra"
-	"github.com/spf13/viper"
 	"os"
 	"path/filepath"
 	"strings"
 
-	"github.com/ra1n6ow/R-admin/internal/pkg/log"
+	"github.com/spf13/cobra"
+	"github.com/spf13/viper"
+
+	"github.com/ra1n6ow/adming/internal/pkg/log"
+	"github.com/ra1n6ow/adming/internal/system/store"
+	"github.com/ra1n6ow/adming/pkg/db"
 )
 
 const (

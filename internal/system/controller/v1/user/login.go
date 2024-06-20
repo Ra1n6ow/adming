@@ -7,10 +7,10 @@ package user
 
 import (
 	"github.com/gin-gonic/gin"
-	"github.com/ra1n6ow/R-admin/internal/pkg/core"
-	"github.com/ra1n6ow/R-admin/internal/pkg/errno"
-	"github.com/ra1n6ow/R-admin/internal/pkg/log"
-	v1 "github.com/ra1n6ow/R-admin/pkg/api/system/v1"
+	"github.com/ra1n6ow/adming/internal/pkg/core"
+	"github.com/ra1n6ow/adming/internal/pkg/errno"
+	"github.com/ra1n6ow/adming/internal/pkg/log"
+	v1 "github.com/ra1n6ow/adming/pkg/api/system/v1"
 )
 
 // Login 登录 system 并返回一个 JWT Token.

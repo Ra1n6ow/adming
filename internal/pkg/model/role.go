@@ -5,18 +5,19 @@ import (
 )
 
 type Role struct {
-	ID        uint      `gorm:"column:id;primary_key;auto_increment"` //
-	OrderNo   int       `gorm:"column:orderNo"`                       //
-	RoleName  string    `gorm:"column:roleName"`                      //
-	RoleValue string    `gorm:"column:roleValue"`                     //
-	CreatedAt time.Time `gorm:"column:createdAt"`                     //
-	UpdatedAt time.Time `gorm:"column:updatedAt"`                     //
-	Remark    string    `gorm:"column:remark"`                        //
-	Status    int       `gorm:"column:status"`                        //
-	Users     []*User   `gorm:"many2many:user_roles"`
+	ID        uint      `gorm:"column:id;primary_key;auto_increment"`
+	OrderNo   int       `gorm:"column:order_no"`
+	RoleName  string    `gorm:"column:role_name"`
+	RoleValue string    `gorm:"column:role_value"`
+	CreatedAt time.Time `gorm:"column:created_at"`
+	UpdatedAt time.Time `gorm:"column:updated_at"`
+	Desc      string    `gorm:"column:desc"`
+	Status    int       `gorm:"column:status"`
+	Users     []*User   `gorm:"many2many:user_role"`
+	Menus     []*Menu   `gorm:"many2many:role_menu"`
 }
 
-// TableName sets the insert table name for this struct type
-func (r *Role) TableName() string {
-	return "roles"
-}
+// // TableName sets the insert table name for this struct type
+// func (r *Role) TableName() string {
+// 	return "role"
+// }

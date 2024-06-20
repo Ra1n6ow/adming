@@ -10,8 +10,6 @@ import (
 	"encoding/json"
 	"errors"
 	"fmt"
-	"github.com/ra1n6ow/R-admin/internal/pkg/model"
-	"github.com/ra1n6ow/R-admin/internal/system/store"
 	"net/http"
 	"os"
 	"os/signal"
@@ -22,11 +20,13 @@ import (
 	"github.com/spf13/cobra"
 	"github.com/spf13/viper"
 
-	"github.com/ra1n6ow/R-admin/internal/pkg/known"
-	"github.com/ra1n6ow/R-admin/internal/pkg/log"
-	mw "github.com/ra1n6ow/R-admin/internal/pkg/middleware"
-	"github.com/ra1n6ow/R-admin/pkg/token"
-	"github.com/ra1n6ow/R-admin/pkg/version/verflag"
+	"github.com/ra1n6ow/adming/internal/pkg/known"
+	"github.com/ra1n6ow/adming/internal/pkg/log"
+	mw "github.com/ra1n6ow/adming/internal/pkg/middleware"
+	"github.com/ra1n6ow/adming/internal/pkg/model"
+	"github.com/ra1n6ow/adming/internal/system/store"
+	"github.com/ra1n6ow/adming/pkg/token"
+	"github.com/ra1n6ow/adming/pkg/version/verflag"
 )
 
 var cfgFile string
@@ -93,7 +93,9 @@ func run() error {
 	if err := initStore(); err != nil {
 		return err
 	}
-	//mockUserCreate()
+	// migrateDB()
+	// mockUserCreate()
+	mockMenuCreate()
 
 	// 设置 token 包的签发密钥，用于 token 包 token 的签发和解析
 	token.Init(viper.GetString("jwt-secret"), known.XUsernameKey)
@@ -157,9 +159,14 @@ func startInsecureServer(g *gin.Engine) *http.Server {
 	return httpsrv
 }
 
+func migrateDB() {
+	db := store.S.DB()
+	db.AutoMigrate(&model.Role{})
+}
 func mockUserCreate() {
 	db := store.S.DB()
-	u := model.User{
+	var users []*model.User
+	users = append(users, &model.User{
 		Username: "admin",
 		Password: "123456",
 		Desc:     "系统管理员",
@@ -171,6 +178,15 @@ func mockUserCreate() {
 				RoleValue: "admin",
 				Status:    1,
 			},
+		},
+	})
+
+	users = append(users, &model.User{
+		Username: "djf",
+		Password: "123456",
+		Desc:     "杜老二",
+		HomePath: "/system/account",
+		Roles: []*model.Role{
 			{
 				OrderNo:   2,
 				RoleName:  "运维",
@@ -178,10 +194,30 @@ func mockUserCreate() {
 				Status:    1,
 			},
 		},
-	}
-	err := db.Create(&u).Error
+	})
+
+	err := db.Create(&users).Error
 	if err != nil {
 		panic(err)
 	}
 	log.Infow("模拟创建用户完成")
+}
+
+func mockMenuCreate() {
+	db := store.S.DB()
+	var roles []*model.Role
+	db.Find(&roles, "id = ?", 1)
+	db.Create(&model.Menu{
+		Name:        "系统管理",
+		Title:       "系统管理",
+		Path:        "/system",
+		Component:   "/layouts/index",
+		IsExt:       "0",
+		IsShow:      "1",
+		IsKeepalive: "1",
+		Type:        "0",
+		OrderNo:     1,
+		Icon:        "setting",
+		Roles:       roles,
+	})
 }

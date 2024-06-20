@@ -6,8 +6,8 @@
 package biz
 
 import (
-	"github.com/ra1n6ow/R-admin/internal/system/biz/user"
-	"github.com/ra1n6ow/R-admin/internal/system/store"
+	"github.com/ra1n6ow/adming/internal/system/biz/user"
+	"github.com/ra1n6ow/adming/internal/system/store"
 )
 
 // IBiz 定义了 Biz 层需要实现的方法.

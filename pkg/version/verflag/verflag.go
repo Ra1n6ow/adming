@@ -12,7 +12,7 @@ import (
 
 	"github.com/spf13/pflag"
 
-	"github.com/ra1n6ow/R-admin/pkg/version"
+	"github.com/ra1n6ow/adming/pkg/version"
 )
 
 type versionValue int

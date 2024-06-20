@@ -6,8 +6,8 @@
 package user
 
 import (
-	"github.com/ra1n6ow/R-admin/internal/system/biz"
-	"github.com/ra1n6ow/R-admin/internal/system/store"
+	"github.com/ra1n6ow/adming/internal/system/biz"
+	"github.com/ra1n6ow/adming/internal/system/store"
 )
 
 // UserController 是 user 模块在 Controller 层的实现，用来处理用户模块的请求.

@@ -9,7 +9,7 @@ import (
 	"github.com/gin-gonic/gin"
 	"github.com/google/uuid"
 
-	"github.com/ra1n6ow/R-admin/internal/pkg/known"
+	"github.com/ra1n6ow/adming/internal/pkg/known"
 )
 
 // RequestID 是一个 Gin 中间件，用来在每一个 HTTP 请求的 context, response 中注入 `X-Request-ID` 键值对.

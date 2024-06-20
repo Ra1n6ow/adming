@@ -12,6 +12,7 @@ import (
 	"gorm.io/driver/mysql"
 	"gorm.io/gorm"
 	"gorm.io/gorm/logger"
+	"gorm.io/gorm/schema"
 )
 
 // MySQLOptions 定义 MySQL 数据库的选项.
@@ -46,6 +47,9 @@ func NewMySQL(opts *MySQLOptions) (*gorm.DB, error) {
 	}
 	db, err := gorm.Open(mysql.Open(opts.DSN()), &gorm.Config{
 		Logger: logger.Default.LogMode(logLevel),
+		NamingStrategy: schema.NamingStrategy{
+			SingularTable: true,
+		},
 	})
 	if err != nil {
 		return nil, err

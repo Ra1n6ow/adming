@@ -11,7 +11,7 @@ import (
 
 	"gorm.io/gorm"
 
-	"github.com/ra1n6ow/R-admin/internal/pkg/model"
+	"github.com/ra1n6ow/adming/internal/pkg/model"
 )
 
 // UserStore 定义了 user 模块在 store 层所实现的方法.

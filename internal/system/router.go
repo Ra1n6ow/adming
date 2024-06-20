@@ -8,12 +8,12 @@ package system
 import (
 	"github.com/gin-gonic/gin"
 
-	"github.com/ra1n6ow/R-admin/internal/pkg/core"
-	"github.com/ra1n6ow/R-admin/internal/pkg/errno"
-	"github.com/ra1n6ow/R-admin/internal/pkg/log"
-	mw "github.com/ra1n6ow/R-admin/internal/pkg/middleware"
-	"github.com/ra1n6ow/R-admin/internal/system/controller/v1/user"
-	"github.com/ra1n6ow/R-admin/internal/system/store"
+	"github.com/ra1n6ow/adming/internal/pkg/core"
+	"github.com/ra1n6ow/adming/internal/pkg/errno"
+	"github.com/ra1n6ow/adming/internal/pkg/log"
+	mw "github.com/ra1n6ow/adming/internal/pkg/middleware"
+	"github.com/ra1n6ow/adming/internal/system/controller/v1/user"
+	"github.com/ra1n6ow/adming/internal/system/store"
 )
 
 // installRouters 安装 miniblog 接口路由.

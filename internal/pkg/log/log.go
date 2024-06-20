@@ -13,7 +13,7 @@ import (
 	"go.uber.org/zap"
 	"go.uber.org/zap/zapcore"
 
-	"github.com/ra1n6ow/R-admin/internal/pkg/known"
+	"github.com/ra1n6ow/adming/internal/pkg/known"
 )
 
 // Logger 定义了 miniblog 项目的日志接口. 该接口只包含了支持的日志记录方法.

@@ -10,7 +10,7 @@ import (
 
 	"github.com/gin-gonic/gin"
 
-	"github.com/ra1n6ow/R-admin/internal/pkg/errno"
+	"github.com/ra1n6ow/adming/internal/pkg/errno"
 )
 
 // ErrResponse 定义了发生错误时的返回消息.

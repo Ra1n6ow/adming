@@ -8,17 +8,18 @@ package user
 import (
 	"context"
 	"errors"
-	"gorm.io/gorm"
 	"regexp"
+
+	"gorm.io/gorm"
 
 	"github.com/jinzhu/copier"
 
-	"github.com/ra1n6ow/R-admin/internal/pkg/errno"
-	"github.com/ra1n6ow/R-admin/internal/pkg/model"
-	"github.com/ra1n6ow/R-admin/internal/system/store"
-	v1 "github.com/ra1n6ow/R-admin/pkg/api/system/v1"
-	"github.com/ra1n6ow/R-admin/pkg/auth"
-	"github.com/ra1n6ow/R-admin/pkg/token"
+	"github.com/ra1n6ow/adming/internal/pkg/errno"
+	"github.com/ra1n6ow/adming/internal/pkg/model"
+	"github.com/ra1n6ow/adming/internal/system/store"
+	v1 "github.com/ra1n6ow/adming/pkg/api/system/v1"
+	"github.com/ra1n6ow/adming/pkg/auth"
+	"github.com/ra1n6ow/adming/pkg/token"
 )
 
 // UserBiz 定义了 user 模块在 biz 层所实现的方法.
