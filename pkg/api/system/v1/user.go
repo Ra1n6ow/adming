@@ -37,5 +37,5 @@ type UserInfo struct {
 	UpdatedAt string      `json:"updatedAt"`
 	HomePath  string      `json:"homePath"` //
 	Status    int         `json:"status"`
-	Roles     []*RoleInfo `gorm:"many2many:user_roles"`
+	Roles     []*RoleInfo `json:"roles"`
 }

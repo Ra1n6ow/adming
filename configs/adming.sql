@@ -1,17 +1,17 @@
 /*
  Navicat Premium Data Transfer
 
- Source Server         : WSL-MariaDB-10.6.16
+ Source Server         : WSL-Mariadb-10.6.16
  Source Server Type    : MariaDB
- Source Server Version : 100616
+ Source Server Version : 100618 (10.6.18-MariaDB-0ubuntu0.22.04.1)
  Source Host           : 127.0.0.1:3306
  Source Schema         : adming
 
  Target Server Type    : MariaDB
- Target Server Version : 100616
+ Target Server Version : 100618 (10.6.18-MariaDB-0ubuntu0.22.04.1)
  File Encoding         : 65001
 
- Date: 20/06/2024 23:15:31
+ Date: 21/06/2024 18:34:31
 */
 
 SET NAMES utf8mb4;
@@ -24,7 +24,7 @@ DROP TABLE IF EXISTS `menu`;
 CREATE TABLE `menu`  (
   `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT COMMENT '主键 ID',
   `pid` varchar(16) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL DEFAULT '' COMMENT '父菜单 ID',
-  `type` tinyint(1) NOT NULL DEFAULT 0 COMMENT '菜单类型',
+  `type` varchar(2) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL DEFAULT '0' COMMENT '菜单类型',
   `name` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL DEFAULT '' COMMENT '路由名称',
   `path` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL DEFAULT '' COMMENT '路由',
   `component` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL DEFAULT '' COMMENT '前端组件',
@@ -34,13 +34,14 @@ CREATE TABLE `menu`  (
   `order_no` int(11) NOT NULL DEFAULT 0 COMMENT '排序',
   `is_show` varchar(2) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL DEFAULT '1' COMMENT '是否显示',
   `permission` varchar(253) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL DEFAULT '' COMMENT '权限标识',
-  `is_keepalive` varchar(2) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL DEFAULT '1' COMMENT '是否缓存',
+  `ignore_keepalive` varchar(2) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL DEFAULT '1' COMMENT '是否忽略缓存',
   `is_ext` varchar(2) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL DEFAULT '1' COMMENT '是否外链',
   `created_at` timestamp NOT NULL DEFAULT current_timestamp() COMMENT '创建时间',
   `updated_at` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
+  `redirect` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL DEFAULT '' COMMENT '重定向路由',
   PRIMARY KEY (`id`) USING BTREE,
   UNIQUE INDEX `idx_name`(`name`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 2 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 10 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Table structure for role

@@ -24,7 +24,7 @@ func (ctrl *UserController) Get(c *gin.Context) {
 	// 当请求为 /v1/users/:name 时，从 Param 中取出查询用户
 	name := c.Param("name")
 	// 当请求为 /v1/users/userinfo 时，从 token 中取出查询用户
-	if name == "userinfo" {
+	if name == "userInfo" {
 		identity, err = token.ParseRequest(c)
 		if err != nil {
 			core.WriteResponse(c, err, nil)

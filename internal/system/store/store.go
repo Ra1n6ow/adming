@@ -6,8 +6,9 @@
 package store
 
 import (
-	"gorm.io/gorm"
 	"sync"
+
+	"gorm.io/gorm"
 )
 
 var (
@@ -19,6 +20,7 @@ var (
 // IStore 定义了 Store 层需要实现的方法.
 type IStore interface {
 	Users() UserStore
+	Menus() MenuStore
 	DB() *gorm.DB
 }
 
@@ -48,4 +50,8 @@ func (ds *datastore) DB() *gorm.DB {
 // Users 返回一个实现了 UserStore 接口的实例.
 func (ds *datastore) Users() UserStore {
 	return newUsers(ds.db)
+}
+
+func (ds *datastore) Menus() MenuStore {
+	return newMenus(ds.db)
 }

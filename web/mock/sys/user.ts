@@ -45,6 +45,7 @@ const fakeCodeList: any = {
 };
 export default [
   // mock user login
+  /*
   {
     url: '/basic-api/login',
     timeout: 200,
@@ -97,6 +98,7 @@ export default [
       return resultSuccess(codeList);
     },
   },
+  */
   {
     url: '/basic-api/logout',
     timeout: 200,

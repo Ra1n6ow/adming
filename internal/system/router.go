@@ -12,6 +12,7 @@ import (
 	"github.com/ra1n6ow/adming/internal/pkg/errno"
 	"github.com/ra1n6ow/adming/internal/pkg/log"
 	mw "github.com/ra1n6ow/adming/internal/pkg/middleware"
+	"github.com/ra1n6ow/adming/internal/system/controller/v1/menu"
 	"github.com/ra1n6ow/adming/internal/system/controller/v1/user"
 	"github.com/ra1n6ow/adming/internal/system/store"
 )
@@ -30,8 +31,15 @@ func installRouters(g *gin.Engine) error {
 		core.WriteResponse(c, nil, map[string]string{"status": "ok"})
 	})
 
+	g.GET("/getPermCode", func(c *gin.Context) {
+		core.WriteResponse(c, nil, []string{"1000", "3000", "5000"})
+	})
+
 	uc := user.New(store.S)
+	mc := menu.New(store.S)
+
 	g.POST("/login", uc.Login)
+	g.GET("/menuList", mw.Authn(), mc.GetMenuList)
 
 	// 创建 v1 路由分组
 	v1 := g.Group("/v1")

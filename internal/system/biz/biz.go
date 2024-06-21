@@ -6,6 +6,7 @@
 package biz
 
 import (
+	"github.com/ra1n6ow/adming/internal/system/biz/menu"
 	"github.com/ra1n6ow/adming/internal/system/biz/user"
 	"github.com/ra1n6ow/adming/internal/system/store"
 )
@@ -34,4 +35,8 @@ func NewBiz(ds store.IStore) *biz {
 // Users 返回一个实现了 UserBiz 接口的实例.
 func (b *biz) Users() user.UserBiz {
 	return user.New(b.ds)
+}
+
+func (b *biz) Menus() menu.MenuBiz {
+	return menu.New(b.ds)
 }
