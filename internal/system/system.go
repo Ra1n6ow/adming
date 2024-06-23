@@ -93,9 +93,9 @@ func run() error {
 	if err := initStore(); err != nil {
 		return err
 	}
-	// migrateDB()
-	// mockUserCreate()
-	// mockMenuCreate()
+	// mockMigrateDB()
+	// mockCreateUser()
+	// mockCreateMenu()
 
 	// 设置 token 包的签发密钥，用于 token 包 token 的签发和解析
 	token.Init(viper.GetString("jwt-secret"), known.XUsernameKey)
@@ -159,40 +159,36 @@ func startInsecureServer(g *gin.Engine) *http.Server {
 	return httpsrv
 }
 
-func migrateDB() {
+func mockMigrateDB() {
 	db := store.S.DB()
-	db.AutoMigrate(&model.Role{})
+	db.AutoMigrate(&model.Role{}, &model.User{}, &model.Menu{})
 }
-func mockUserCreate() {
+func mockCreateUser() {
 	db := store.S.DB()
-	var users []*model.User
-	users = append(users, &model.User{
+	var users []model.User
+	users = append(users, model.User{
 		Username: "admin",
 		Password: "123456",
 		Desc:     "系统管理员",
 		HomePath: "/system/account",
-		Roles: []*model.Role{
-			{
-				OrderNo:   1,
-				RoleName:  "管理员",
-				RoleValue: "admin",
-				Status:    1,
-			},
+		Role: model.Role{
+			OrderNo:   1,
+			RoleName:  "管理员",
+			RoleValue: "admin",
+			Status:    1,
 		},
 	})
 
-	users = append(users, &model.User{
+	users = append(users, model.User{
 		Username: "djf",
 		Password: "123456",
 		Desc:     "杜老二",
 		HomePath: "/system/account",
-		Roles: []*model.Role{
-			{
-				OrderNo:   2,
-				RoleName:  "运维",
-				RoleValue: "ops",
-				Status:    1,
-			},
+		Role: model.Role{
+			OrderNo:   2,
+			RoleName:  "运维",
+			RoleValue: "ops",
+			Status:    1,
 		},
 	})
 
@@ -203,56 +199,59 @@ func mockUserCreate() {
 	log.Infow("模拟创建用户完成")
 }
 
-func mockMenuCreate() {
+func mockCreateMenu() {
 	db := store.S.DB()
-	var roles []*model.Role
+	var roles []model.Role
 
 	db.Find(&roles, "id = ?", 1)
 	// system menu
-	// db.Create(&model.Menu{
-	// 	Name:      "System",
-	// 	Title:     "routes.demo.system.moduleName",
-	// 	Path:      "/system",
-	// 	Component: "LAYOUT",
-	// 	Redirect:  "/system/account",
-	// 	Icon:      "ion:settings-outline",
-	// 	Roles:     roles,
-	// })
-	// db.Create(&model.Menu{
-	// 	Name:            "AccountManagement",
-	// 	Title:           "routes.demo.system.account",
-	// 	Path:            "account",
-	// 	Component:       "/demo/system/account/index",
-	// 	IgnoreKeepalive: "1",
-	// 	Roles:           roles,
-	// })
-	// db.Create(&model.Menu{
-	// 	Name:            "RoleManagement",
-	// 	Title:           "routes.demo.system.role",
-	// 	Path:            "role",
-	// 	Component:       "/demo/system/role/index",
-	// 	IgnoreKeepalive: "1",
-	// 	Roles:           roles,
-	// })
-	// db.Create(&model.Menu{
-	// 	Name:            "MenuManagement",
-	// 	Title:           "routes.demo.system.menu",
-	// 	Path:            "menu",
-	// 	Component:       "/demo/system/menu/index",
-	// 	IgnoreKeepalive: "1",
-	// 	Roles:           roles,
-	// })
-	// db.Create(&model.Menu{
-	// 	Name:            "changePassword",
-	// 	Title:           "routes.demo.system.password",
-	// 	Path:            "changePassword",
-	// 	Component:       "/demo/system/password/index",
-	// 	IgnoreKeepalive: "1",
-	// 	Roles:           roles,
-	// })
+	var menus []model.Menu
+	menu1 := model.Menu{
+		Name:      "System",
+		Title:     "routes.demo.system.moduleName",
+		Path:      "/system",
+		Component: "LAYOUT",
+		Redirect:  "/system/account",
+		Icon:      "ion:settings-outline",
+		Roles:     roles,
+		Children: []model.Menu{
+			{
+				Name:            "AccountManagement",
+				Title:           "routes.demo.system.account",
+				Path:            "account",
+				Component:       "/demo/system/account/index",
+				IgnoreKeepalive: "1",
+				Roles:           roles,
+			},
+			{
+				Name:            "RoleManagement",
+				Title:           "routes.demo.system.role",
+				Path:            "role",
+				Component:       "/demo/system/role/index",
+				IgnoreKeepalive: "1",
+				Roles:           roles,
+			},
+			{
+				Name:            "MenuManagement",
+				Title:           "routes.demo.system.menu",
+				Path:            "menu",
+				Component:       "/demo/system/menu/index",
+				IgnoreKeepalive: "1",
+				Roles:           roles,
+			},
+			{
+				Name:            "changePassword",
+				Title:           "routes.demo.system.password",
+				Path:            "changePassword",
+				Component:       "/demo/system/password/index",
+				IgnoreKeepalive: "1",
+				Roles:           roles,
+			},
+		},
+	}
 
-	// Permission menu
-	db.Create(&model.Menu{
+	// permission menu
+	menu2 := model.Menu{
 		Name:      "Permission",
 		Title:     "routes.demo.permission.permission",
 		Path:      "/permission",
@@ -260,25 +259,33 @@ func mockMenuCreate() {
 		Redirect:  "/permission/front/page",
 		Icon:      "carbon:user-role",
 		Roles:     roles,
-	})
-	db.Create(&model.Menu{
-		Name:  "PermissionBackDemo",
-		Title: "routes.demo.permission.back",
-		Path:  "back",
-		Roles: roles,
-	})
-	db.Create(&model.Menu{
-		Name:      "BackAuthPage",
-		Title:     "routes.demo.permission.backPage",
-		Path:      "page",
-		Component: "/demo/permission/back/index",
-		Roles:     roles,
-	})
-	db.Create(&model.Menu{
-		Name:      "BackAuthBtn",
-		Title:     "routes.demo.permission.backBtn",
-		Path:      "btn",
-		Component: "/demo/permission/back/Btn",
-		Roles:     roles,
-	})
+		Children: []model.Menu{
+			{
+				Name:  "PermissionBackDemo",
+				Title: "routes.demo.permission.back",
+				Path:  "back",
+				Roles: roles,
+				Children: []model.Menu{
+					{
+						Name:      "BackAuthPage",
+						Title:     "routes.demo.permission.backPage",
+						Path:      "page",
+						Component: "/demo/permission/back/index",
+						Roles:     roles,
+					},
+					{
+						Name:      "BackAuthBtn",
+						Title:     "routes.demo.permission.backBtn",
+						Path:      "btn",
+						Component: "/demo/permission/back/Btn",
+						Roles:     roles,
+					},
+				},
+			},
+		},
+	}
+	menus = append(menus, menu1)
+	// fmt.Println(menu1)
+	menus = append(menus, menu2)
+	db.Create(&menus)
 }

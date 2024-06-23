@@ -30,8 +30,9 @@ func (ctrl *UserController) Get(c *gin.Context) {
 			core.WriteResponse(c, err, nil)
 			return
 		}
+	} else {
+		identity = name
 	}
-
 	user, err = ctrl.b.Users().Get(c, identity)
 
 	if err != nil {

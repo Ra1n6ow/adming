@@ -7,7 +7,6 @@ package store
 
 import (
 	"context"
-	"fmt"
 
 	"gorm.io/gorm"
 
@@ -40,10 +39,10 @@ func (u *users) Create(ctx context.Context, user *model.User) error {
 // Get 根据用户名查询指定 user 的数据库记录.
 func (u *users) Get(ctx context.Context, username string) (*model.User, error) {
 	var user model.User
-	if err := u.db.Preload("Roles").Where("username = ?", username).First(&user).Error; err != nil {
+	if err := u.db.Preload("Role").Where("username = ?", username).First(&user).Error; err != nil {
 		return nil, err
 	}
-	fmt.Println(user)
+	// fmt.Println(user)
 
 	return &user, nil
 }

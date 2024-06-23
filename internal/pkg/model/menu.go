@@ -4,7 +4,7 @@ import "time"
 
 type Menu struct {
 	ID              uint      `gorm:"column:id;primary_key;auto_increment"`
-	Pid             string    `gorm:"column:pid"`
+	ParentID        *uint     `gorm:"column:parent_id"`
 	Type            string    `gorm:"column:type"`
 	Name            string    `gorm:"column:name"`
 	Path            string    `gorm:"column:path"`
@@ -20,5 +20,6 @@ type Menu struct {
 	Redirect        string    `gorm:"column:redirect"`
 	CreatedAt       time.Time `gorm:"column:created_at"`
 	UpdatedAt       time.Time `gorm:"column:updated_at"`
-	Roles           []*Role   `gorm:"many2many:role_menu"`
+	Roles           []Role    `gorm:"many2many:role_menu"`
+	Children        []Menu    `gorm:"foreignKey:ParentID;references:ID"`
 }

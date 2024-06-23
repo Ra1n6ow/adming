@@ -14,6 +14,7 @@ import (
 // IBiz 定义了 Biz 层需要实现的方法.
 type IBiz interface {
 	Users() user.UserBiz
+	Menus() menu.MenuBiz
 }
 
 // 确保 biz 实现了 IBiz 接口.

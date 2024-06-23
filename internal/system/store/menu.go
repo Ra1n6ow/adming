@@ -8,7 +8,7 @@ import (
 )
 
 type MenuStore interface {
-	getMenuByUser(ctx context.Context, username string) ([]*model.Menu, error)
+	GetMenuList(ctx context.Context, username string) ([]model.Menu, error)
 }
 
 type menus struct {
@@ -22,7 +22,18 @@ func newMenus(db *gorm.DB) *menus {
 	return &menus{db}
 }
 
-func (m *menus) getMenuByUser(ctx context.Context, username string) ([]*model.Menu, error) {
-	var menus []*model.Menu
-	return menus, nil
+func expandChildren(db *gorm.DB) *gorm.DB {
+	return db.Preload("Children", expandChildren)
+}
+func (m *menus) GetMenuList(ctx context.Context, username string) ([]model.Menu, error) {
+	var user model.User
+	if err := m.db.Preload("Role").Find(&user, "username = ?", username).Error; err != nil {
+		return nil, err
+	}
+	role := user.Role
+	if err := m.db.Preload("Menus", "parent_id is null").Preload("Menus.Children", expandChildren).Find(&role).Error; err != nil {
+		return nil, err
+	}
+
+	return role.Menus, nil
 }
