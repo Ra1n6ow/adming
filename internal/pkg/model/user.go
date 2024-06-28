@@ -18,9 +18,7 @@ type User struct {
 	CreatedAt time.Time `gorm:"column:created_at"`
 	UpdatedAt time.Time `gorm:"column:updated_at"`
 	Status    int       `gorm:"column:status"`
-	RoleID    *uint     `gorm:"column:role_id"`
-	Role      Role
-	// Roles     []Role    `gorm:"many2many:user_role"`
+	Roles     []Role    `gorm:"many2many:user_role"`
 }
 
 // TableName sets the insert table name for this struct type

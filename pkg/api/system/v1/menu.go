@@ -1,40 +1,55 @@
 package v1
 
-import (
-	"github.com/ra1n6ow/adming/internal/pkg/model"
-)
+type GetMenuResponse struct {
+	ID              string             `json:"id"`
+	TreeID          string             `json:"treeID,omitempty"`
+	Icon            string             `json:"icon,omitempty"`
+	Component       string             `json:"component,omitempty"`
+	Type            string             `json:"type,omitempty"`
+	MenuName        string             `json:"menuName,omitempty"`
+	Permission      string             `json:"permission,omitempty"`
+	OrderNo         int                `json:"orderNo"`
+	CreateTime      string             `json:"createTime,omitempty"`
+	RoutePath       string             `json:"routePath,omitempty"`
+	Redirect        string             `json:"redirect,omitempty"`
+	Title           string             `json:"title,omitempty"`
+	IgnoreKeepAlive bool               `json:"ignoreKeepAlive,omitempty"`
+	Status          string             `json:"status,omitempty"`
+	IsExt           string             `json:"isExt,omitempty"`
+	Children        []*GetMenuResponse `json:"children,omitempty"`
+}
 
 type MenuMeta struct {
 	Title           string `json:"title,omitempty"`
 	Icon            string `json:"icon,omitempty"`
 	IgnoreKeepAlive bool   `json:"ignoreKeepAlive,omitempty"`
+	OrderNo         int    `json:"orderNo"`
 }
 
-type GetMenuListResponse struct {
+type GetMenuMetaResponse struct {
 	Path      string                 `json:"path,omitempty"`
-	Name      string                 `json:"name,omitempty"`
+	MenuName  string                 `json:"menuName,omitempty"`
 	Component string                 `json:"component,omitempty"`
 	Redirect  string                 `json:"redirect,omitempty"`
 	Meta      MenuMeta               `json:"meta,omitempty"`
-	Children  []*GetMenuListResponse `json:"children,omitempty"`
+	Children  []*GetMenuMetaResponse `json:"children,omitempty"`
 }
 
-// 将model.Menu转换为GetMenuListResponse
-func ConvertGetMenuListResponse(menus []model.Menu) []*GetMenuListResponse {
-	getMenuListResponses := make([]*GetMenuListResponse, len(menus))
-	for i, menu := range menus {
-		getMenuListResponses[i] = &GetMenuListResponse{
-			Path:      menu.Path,
-			Name:      menu.Name,
-			Component: menu.Component,
-			Redirect:  menu.Redirect,
-			Meta: MenuMeta{
-				Title:           menu.Title,
-				Icon:            menu.Icon,
-				IgnoreKeepAlive: menu.IgnoreKeepalive == "1",
-			},
-			Children: ConvertGetMenuListResponse(menu.Children),
-		}
-	}
-	return getMenuListResponses
+type CreateMenuRequest struct {
+	Data CreateMenuRequestData `json:"data"`
+}
+
+type CreateMenuRequestData struct {
+	MenuName        string `json:"menuName" valid:"alphanum,required,stringlength(1|255)"`
+	OrderNo         int    `json:"orderNo" valid:"required"`
+	Path            string `json:"routePath"`
+	Icon            string `json:"icon"`
+	Type            string `json:"type" valid:"required"`
+	IsShow          string `json:"show"`
+	Status          string `json:"status" valid:"required"`
+	IsExt           string `json:"isExt"`
+	Permission      string `json:"permission"`
+	IgnoreKeepalive string `json:"keepalive"`
+	ParentMenu      string `json:"parentMenu"`
+	Component       string `json:"component"`
 }

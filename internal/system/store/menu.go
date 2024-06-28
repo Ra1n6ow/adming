@@ -8,7 +8,9 @@ import (
 )
 
 type MenuStore interface {
-	GetMenuList(ctx context.Context, username string) ([]model.Menu, error)
+	Create(ctx context.Context, menu *model.Menu) error
+	GetMeta(ctx context.Context, username string) ([]model.Menu, error)
+	GetAll(ctx context.Context) ([]model.Menu, error)
 }
 
 type menus struct {
@@ -22,18 +24,31 @@ func newMenus(db *gorm.DB) *menus {
 	return &menus{db}
 }
 
-func expandChildren(db *gorm.DB) *gorm.DB {
-	return db.Preload("Children", expandChildren)
+func (m *menus) Create(ctx context.Context, menu *model.Menu) error {
+	return m.db.Create(&menu).Error
 }
-func (m *menus) GetMenuList(ctx context.Context, username string) ([]model.Menu, error) {
+
+func (m *menus) GetMeta(ctx context.Context, username string) ([]model.Menu, error) {
 	var user model.User
-	if err := m.db.Preload("Role").Find(&user, "username = ?", username).Error; err != nil {
+
+	if err := m.db.Preload("Roles.Menus", func(db *gorm.DB) *gorm.DB {
+		return db.Order("menu.order_no")
+	}).Find(&user, "username = ?", "admin").Error; err != nil {
 		return nil, err
 	}
-	role := user.Role
-	if err := m.db.Preload("Menus", "parent_id is null").Preload("Menus.Children", expandChildren).Find(&role).Error; err != nil {
+	var menuList []model.Menu
+	for _, role := range user.Roles {
+		menuList = append(menuList, role.Menus...)
+	}
+
+	return menuList, nil
+}
+
+func (m *menus) GetAll(ctx context.Context) ([]model.Menu, error) {
+	var menus []model.Menu
+	if err := m.db.Order("order_no").Find(&menus).Error; err != nil {
 		return nil, err
 	}
 
-	return role.Menus, nil
+	return menus, nil
 }

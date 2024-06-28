@@ -27,7 +27,7 @@ func (ctrl *UserController) Get(c *gin.Context) {
 	if name == "userInfo" {
 		identity, err = token.ParseRequest(c)
 		if err != nil {
-			core.WriteResponse(c, err, nil)
+			core.ErrorResponse(c, err)
 			return
 		}
 	} else {
@@ -36,10 +36,10 @@ func (ctrl *UserController) Get(c *gin.Context) {
 	user, err = ctrl.b.Users().Get(c, identity)
 
 	if err != nil {
-		core.WriteResponse(c, err, nil)
+		core.ErrorResponse(c, err)
 
 		return
 	}
 
-	core.WriteResponse(c, nil, user)
+	core.SuccessResponse(c, "Get user success", user)
 }

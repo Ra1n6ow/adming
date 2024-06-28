@@ -21,22 +21,22 @@ func (ctrl *UserController) Create(c *gin.Context) {
 
 	var r v1.CreateUserRequest
 	if err := c.ShouldBindJSON(&r); err != nil {
-		core.WriteResponse(c, errno.ErrBind, nil)
+		core.ErrorResponse(c, errno.ErrBind)
 
 		return
 	}
 
 	if _, err := govalidator.ValidateStruct(r); err != nil {
-		core.WriteResponse(c, errno.ErrInvalidParameter.SetMessage(err.Error()), nil)
+		core.ErrorResponse(c, errno.ErrInvalidParameter.SetMessage(err.Error()))
 
 		return
 	}
 
 	if err := ctrl.b.Users().Create(c, &r); err != nil {
-		core.WriteResponse(c, err, nil)
+		core.ErrorResponse(c, err)
 
 		return
 	}
 
-	core.WriteResponse(c, nil, nil)
+	core.SuccessResponse(c, "Create user success", nil)
 }

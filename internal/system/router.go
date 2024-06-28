@@ -21,25 +21,24 @@ import (
 func installRouters(g *gin.Engine) error {
 	// 注册 404 Handler.
 	g.NoRoute(func(c *gin.Context) {
-		core.WriteResponse(c, errno.ErrPageNotFound, nil)
+		core.ErrorResponse(c, errno.ErrPageNotFound)
 	})
 
 	// 注册 /healthz handler.
 	g.GET("/healthz", func(c *gin.Context) {
 		log.C(c).Infow("Healthz function called")
 
-		core.WriteResponse(c, nil, map[string]string{"status": "ok"})
+		core.SuccessResponse(c, "Healthz Check OK", map[string]string{"status": "ok"})
 	})
 
 	g.GET("/getPermCode", func(c *gin.Context) {
-		core.WriteResponse(c, nil, []string{"1000", "3000", "5000"})
+		core.SuccessResponse(c, "Get Permssion Code Success", []string{"1000", "3000", "5000"})
 	})
 
 	uc := user.New(store.S)
 	mc := menu.New(store.S)
 
 	g.POST("/login", uc.Login)
-	g.GET("/menuList", mw.Authn(), mc.GetMenuList)
 
 	// 创建 v1 路由分组
 	v1 := g.Group("/v1")
@@ -50,6 +49,15 @@ func installRouters(g *gin.Engine) error {
 			userv1.POST("", uc.Create) // 创建用户
 			userv1.Use(mw.Authn())
 			userv1.GET(":name", uc.Get) // 获取用户详情
+		}
+
+		// menus 路由分组
+		menuv1 := v1.Group("/menus")
+		{
+			menuv1.Use(mw.Authn())
+			menuv1.POST("", mc.Create)
+			menuv1.GET("/meta", mc.GetMeta)
+			menuv1.GET("", mc.GetAll)
 		}
 	}
 

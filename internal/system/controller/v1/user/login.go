@@ -19,17 +19,17 @@ func (ctrl *UserController) Login(c *gin.Context) {
 
 	var r v1.LoginRequest
 	if err := c.ShouldBindJSON(&r); err != nil {
-		core.WriteResponse(c, errno.ErrBind, nil)
+		core.ErrorResponse(c, errno.ErrBind)
 
 		return
 	}
 
 	resp, err := ctrl.b.Users().Login(c, &r)
 	if err != nil {
-		core.WriteResponse(c, err, nil)
+		core.ErrorResponse(c, err)
 
 		return
 	}
 
-	core.WriteResponse(c, nil, resp)
+	core.SuccessResponse(c, "Login success", resp)
 }

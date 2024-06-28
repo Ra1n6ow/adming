@@ -171,24 +171,49 @@ func mockCreateUser() {
 		Password: "123456",
 		Desc:     "系统管理员",
 		HomePath: "/system/account",
-		Role: model.Role{
-			OrderNo:   1,
-			RoleName:  "管理员",
-			RoleValue: "admin",
-			Status:    1,
+		Roles: []model.Role{
+			{
+				OrderNo:   1,
+				RoleName:  "管理员",
+				RoleValue: "admin",
+				Status:    1,
+			},
 		},
 	})
 
 	users = append(users, model.User{
 		Username: "djf",
 		Password: "123456",
+		Desc:     "杜老大",
+		HomePath: "/permission/back/page",
+		Roles: []model.Role{
+			{
+				OrderNo:   2,
+				RoleName:  "运维",
+				RoleValue: "ops",
+				Status:    1,
+			},
+		},
+	})
+
+	users = append(users, model.User{
+		Username: "dmx",
+		Password: "123456",
 		Desc:     "杜老二",
-		HomePath: "/system/account",
-		Role: model.Role{
-			OrderNo:   2,
-			RoleName:  "运维",
-			RoleValue: "ops",
-			Status:    1,
+		HomePath: "/permission/back/btn",
+		Roles: []model.Role{
+			{
+				OrderNo:   3,
+				RoleName:  "开发",
+				RoleValue: "dev",
+				Status:    1,
+			},
+			{
+				OrderNo:   4,
+				RoleName:  "测试",
+				RoleValue: "test",
+				Status:    1,
+			},
 		},
 	})
 
@@ -206,8 +231,9 @@ func mockCreateMenu() {
 	db.Find(&roles, "id = ?", 1)
 	// system menu
 	var menus []model.Menu
+
 	menu1 := model.Menu{
-		Name:      "System",
+		MenuName:  "System",
 		Title:     "routes.demo.system.moduleName",
 		Path:      "/system",
 		Component: "LAYOUT",
@@ -216,7 +242,7 @@ func mockCreateMenu() {
 		Roles:     roles,
 		Children: []model.Menu{
 			{
-				Name:            "AccountManagement",
+				MenuName:        "AccountManagement",
 				Title:           "routes.demo.system.account",
 				Path:            "account",
 				Component:       "/demo/system/account/index",
@@ -224,7 +250,7 @@ func mockCreateMenu() {
 				Roles:           roles,
 			},
 			{
-				Name:            "RoleManagement",
+				MenuName:        "RoleManagement",
 				Title:           "routes.demo.system.role",
 				Path:            "role",
 				Component:       "/demo/system/role/index",
@@ -232,7 +258,7 @@ func mockCreateMenu() {
 				Roles:           roles,
 			},
 			{
-				Name:            "MenuManagement",
+				MenuName:        "MenuManagement",
 				Title:           "routes.demo.system.menu",
 				Path:            "menu",
 				Component:       "/demo/system/menu/index",
@@ -240,7 +266,7 @@ func mockCreateMenu() {
 				Roles:           roles,
 			},
 			{
-				Name:            "changePassword",
+				MenuName:        "changePassword",
 				Title:           "routes.demo.system.password",
 				Path:            "changePassword",
 				Component:       "/demo/system/password/index",
@@ -252,7 +278,7 @@ func mockCreateMenu() {
 
 	// permission menu
 	menu2 := model.Menu{
-		Name:      "Permission",
+		MenuName:  "Permission",
 		Title:     "routes.demo.permission.permission",
 		Path:      "/permission",
 		Component: "LAYOUT",
@@ -261,20 +287,20 @@ func mockCreateMenu() {
 		Roles:     roles,
 		Children: []model.Menu{
 			{
-				Name:  "PermissionBackDemo",
-				Title: "routes.demo.permission.back",
-				Path:  "back",
-				Roles: roles,
+				MenuName: "PermissionBackDemo",
+				Title:    "routes.demo.permission.back",
+				Path:     "back",
+				Roles:    roles,
 				Children: []model.Menu{
 					{
-						Name:      "BackAuthPage",
+						MenuName:  "BackAuthPage",
 						Title:     "routes.demo.permission.backPage",
 						Path:      "page",
 						Component: "/demo/permission/back/index",
 						Roles:     roles,
 					},
 					{
-						Name:      "BackAuthBtn",
+						MenuName:  "BackAuthBtn",
 						Title:     "routes.demo.permission.backBtn",
 						Path:      "btn",
 						Component: "/demo/permission/back/Btn",
@@ -284,8 +310,34 @@ func mockCreateMenu() {
 			},
 		},
 	}
-	menus = append(menus, menu1)
+
+	menu3 := model.Menu{
+		MenuName:  "Dashboard",
+		Title:     "routes.dashboard.dashboard",
+		Path:      "/dashboard",
+		Component: "LAYOUT",
+		Redirect:  "/dashboard/analysis",
+		Icon:      "ion:grid-outline",
+		Roles:     roles,
+		Children: []model.Menu{
+			{
+				MenuName:  "Analysis",
+				Title:     "routes.dashboard.analysis",
+				Path:      "analysis",
+				Component: "/dashboard/analysis/index",
+				Roles:     roles,
+			},
+			{
+				MenuName:  "Workbench",
+				Title:     "routes.dashboard.workbench",
+				Path:      "workbench",
+				Component: "/dashboard/workbench/index",
+				Roles:     roles,
+			},
+		},
+	}
+	menus = append(menus, menu1, menu2, menu3)
 	// fmt.Println(menu1)
-	menus = append(menus, menu2)
+	// menus = append(menus, menu2)
 	db.Create(&menus)
 }

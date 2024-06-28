@@ -7,21 +7,21 @@ import (
 	"github.com/ra1n6ow/adming/pkg/token"
 )
 
-func (ctrl *MenuController) GetMenuList(c *gin.Context) {
-	log.C(c).Infow("GetMenuList function called")
+func (ctrl *MenuController) GetMeta(c *gin.Context) {
+	log.C(c).Infow("GetMeta function called")
 
 	// 从 token 中取出用户名
 	identity, err := token.ParseRequest(c)
 	if err != nil {
-		core.WriteResponse(c, err, nil)
+		core.ErrorResponse(c, err)
 		return
 	}
-	menu, err := ctrl.b.Menus().GetMenuList(c, identity)
+	menu, err := ctrl.b.Menus().GetMeta(c, identity)
 	if err != nil {
-		core.WriteResponse(c, err, nil)
+		core.ErrorResponse(c, err)
 
 		return
 	}
 
-	core.WriteResponse(c, nil, menu)
+	core.SuccessResponse(c, "Get menu meta for login success", menu)
 }

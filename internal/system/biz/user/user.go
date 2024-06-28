@@ -45,7 +45,7 @@ func New(ds store.IStore) *userBiz {
 // Login 是 UserBiz 接口中 `Login` 方法的实现.
 func (b *userBiz) Login(ctx context.Context, r *v1.LoginRequest) (*v1.LoginResponse, error) {
 	// 获取登录用户的所有信息
-	user, err := b.ds.Users().Get(ctx, r.Username)
+	user, err := b.ds.Users().Login(ctx, r.Username)
 	if err != nil {
 		return nil, errno.ErrUserNotFound
 	}

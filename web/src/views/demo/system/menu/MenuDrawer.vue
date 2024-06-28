@@ -15,12 +15,16 @@
   import { BasicForm, useForm } from '@/components/Form';
   import { formSchema } from './menu.data';
   import { BasicDrawer, useDrawerInner } from '@/components/Drawer';
+  import { createMenu } from '@/api/sys/menu';
+  import { useMessage } from '@/hooks/web/useMessage';
 
   import { getMenuList } from '@/api/demo/system';
 
   defineOptions({ name: 'MenuDrawer' });
 
   const emit = defineEmits(['success', 'register']);
+
+  const { createMessage } = useMessage();
 
   const isUpdate = ref(true);
 
@@ -55,7 +59,18 @@
       const values = await validate();
       setDrawerProps({ confirmLoading: true });
       // TODO custom api
+      const isUpdateForm = unref(isUpdate);
       console.log(values);
+      if (isUpdateForm) {
+        // await updateMenu(values);
+      } else {
+        try {
+          await createMenu({ data: values });
+          createMessage.success('新建菜单成功');
+        } catch (e) {
+          console.error(e);
+        }
+      }
       closeDrawer();
       emit('success');
     } finally {

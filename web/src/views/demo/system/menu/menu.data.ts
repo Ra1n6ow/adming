@@ -105,7 +105,7 @@ export const formSchema: FormSchema[] = [
     componentProps: {
       fieldNames: {
         label: 'menuName',
-        value: 'id',
+        value: 'treeID',
       },
       getPopupContainer: () => document.body,
     },

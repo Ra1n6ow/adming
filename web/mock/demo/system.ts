@@ -71,7 +71,7 @@ const menuList = (() => {
   const result: any[] = [];
   for (let index = 0; index < 3; index++) {
     result.push({
-      id: `${index}`,
+      treeID: `${index}`,
       icon: ['ion:layers-outline', 'ion:git-compare-outline', 'ion:tv-outline'][index],
       component: 'LAYOUT',
       type: '0',
@@ -84,7 +84,7 @@ const menuList = (() => {
         const children: any[] = [];
         for (let j = 0; j < 4; j++) {
           children.push({
-            id: `${index}-${j}`,
+            treeID: `${index}-${j}`,
             type: '1',
             menuName: ['菜单1', '菜单2', '菜单3', '菜单4'][j],
             icon: 'ion:document',
@@ -103,7 +103,7 @@ const menuList = (() => {
               const children: any[] = [];
               for (let k = 0; k < 4; k++) {
                 children.push({
-                  id: `${index}-${j}-${k}`,
+                  treeID: `${index}-${j}-${k}`,
                   type: '2',
                   menuName: '按钮' + (j + 1) + '-' + (k + 1),
                   icon: '',
@@ -179,14 +179,14 @@ export default [
       return resultSuccess(deptList);
     },
   },
-  {
-    url: '/basic-api/system/getMenuList',
-    timeout: 100,
-    method: 'get',
-    response: () => {
-      return resultSuccess(menuList);
-    },
-  },
+  // {
+  //   url: '/basic-api/system/getMenuList',
+  //   timeout: 100,
+  //   method: 'get',
+  //   response: () => {
+  //     return resultSuccess(menuList);
+  //   },
+  // },
   {
     url: '/basic-api/system/accountExist',
     timeout: 500,
